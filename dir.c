@@ -6,6 +6,7 @@
 #include<errno.h>
 #include<dirent.h>
 int main(){
+char info[100];
 struct dirent *place= malloc(sizeof(struct dirent));
 int size,fd;
 size=0;
@@ -17,15 +18,16 @@ struct stat *file=malloc(sizeof(struct stat));
   while (place!=NULL){
     //fd = open(place->d_name,O_RDONLY);
     //result-read(fd,buff,sizeof(buff));
+    sprintf(info,"../%s",place->d_name);
+    int fd= stat(info,file);
   if (place->d_type==4){
-  printf("%s | Directory: True\n",place->d_name);
-  size+=4096;
+  printf("%s | Directory: True | Size: %lld\n",place->d_name,file->st_size);
+  size+=file->st_size;
 }
 else {
-  int fd= stat("../extracredit.py",file);
-  if (fd==NULL || fd <0) printf("Error encountered");
+  if (fd <0) printf("Error encountered.\n");
   size+=file->st_size;
-    printf("%s | Directory: False\n Size: %ld\n",place->d_name,file->st_size);
+    printf("%s | Directory: False | Size: %lld\n",place->d_name,file->st_size);
 }
   place=readdir(d);
 }
