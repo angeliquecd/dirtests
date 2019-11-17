@@ -22,9 +22,9 @@ struct stat *file=malloc(sizeof(struct stat));
   size+=4096;
 }
 else {
-    printf("%s | Directory: False\n",place->d_name);
-    stat(place->d_name,file);
-    size+=file->st_size;
+  stat(place->d_name,file);
+  size+=file->st_size;
+    printf("%s | Directory: False\n Size: %d",place->d_name,file->st_size);
 }
   place=readdir(d);
 }
