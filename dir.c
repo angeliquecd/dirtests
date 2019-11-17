@@ -7,7 +7,7 @@
 #include<dirent.h>
 #include<string.h>
 int main(){
-char info[100];
+char info[1000];
 char *directories=malloc(1000000000);
 char *regfiles=malloc(10000000000);
 struct dirent *place= malloc(sizeof(struct dirent));
@@ -27,14 +27,14 @@ while (place!=NULL){
     int fd= stat(place->d_name,file);
       if (fd <0) printf("Error encountered. %d\n",errno);
   if (place->d_type==4){
-    sprintf(info,"%s | Size: %lld\n",place->d_name, file->st_size);
+    sprintf(info,"%s | Size: %ld\n",place->d_name, file->st_size);
   strcat(directories,info);
   size+=file->st_size;
 }
 else {
   size+=file->st_size;
   regsize+=file->st_size;
-    sprintf(info,"%s | Size: %lld\n",place->d_name, file->st_size);
+    sprintf(info,"%s | Size: %ld\n",place->d_name, file->st_size);
     strcat(regfiles,info);
 }
   place=readdir(d);
