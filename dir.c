@@ -22,7 +22,7 @@ struct stat *file=malloc(sizeof(struct stat));
   size+=4096;
 }
 else {
-  stat(place->d_name,file);
+  stat("../extracredit.py",file);
   size+=file->st_size;
     printf("%s | Directory: False\n Size: %ld\n",place->d_name,file->st_size);
 }
