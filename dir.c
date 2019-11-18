@@ -6,7 +6,7 @@
 #include<errno.h>
 #include<dirent.h>
 #include<string.h>
-int main(){
+int main(int argc, char * argv[]){
 char info[1000];
 char *directories=malloc(1000000000);
 char *regfiles=malloc(10000000000);
@@ -15,22 +15,27 @@ int size,fd,regsize;
 size=0;
 regsize=0;
 struct stat *file=malloc(sizeof(struct stat));
+DIR *d;
+char * p;
+/*printf ("The first argument is: %s\n",argv[0]);
+printf("The second argument is: %s\n",argv[1]);*/
 
+if (argv[1]==NULL) p = ".";
+else   p=argv[1];
+d=opendir(p);
+if (d==NULL) printf("Error opening directory. Error #%d\n",errno);
 
-DIR *d=opendir(".");
-    if (d==NULL) printf("Error opening directory. Error #%d\n",errno);
 place=readdir(d);
-    if (place==NULL) printf("Error reading directory.\n");
-
+  if (place==NULL) printf("Error reading directory.\n");
+//printf("Directory name: %s\n",place->d_name);
 while (place!=NULL){
-  //  printf("%s\n",place->d_name);
-    int fd= stat(place->d_name,file);
-      if (fd <0) printf("Error encountered. %d\n",errno);
+   fd= stat(p,file);
+      if (fd <0) printf("Error encountered. #%d\n",errno);
   if (place->d_type==4){
     sprintf(info,"%s | Size: %ld\n",place->d_name, file->st_size);
-  strcat(directories,info);
-  size+=file->st_size;
-}
+    strcat(directories,info);
+    size+=file->st_size;}
+
 else {
   size+=file->st_size;
   regsize+=file->st_size;
